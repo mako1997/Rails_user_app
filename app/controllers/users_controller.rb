@@ -6,9 +6,12 @@ class UsersController < ApplicationController
   end
 
   def new
+    @user = User.new
   end
 
   def create
+    user = User.create!(user_params)
+    redirect_to user
   end
 
   def edit
@@ -18,5 +21,11 @@ class UsersController < ApplicationController
   end
 
   def destroy
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:title, :content)
   end
 end
