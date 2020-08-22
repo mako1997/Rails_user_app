@@ -1,10 +1,11 @@
 class UsersController < ApplicationController
+  before_action :set_post, only: %i[show edit update destroy]
+
   def index
     @users = User.order(id: :asc)
   end
 
   def show
-    @user = User.find(params[:id])
   end
 
   def new
@@ -17,22 +18,23 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
   end
 
   def update
-    user = User.find(params[:id])
-    user.update!(user_params)
-    redirect_to user
+    @user.update!(user_params)
+    redirect_to @user
   end
 
   def destroy
-    user = User.find(params[:id])
-    user.destroy!
-    redirect_to user
+    @user.destroy!
+    redirect_to @user
   end
 
   private
+
+  def set_post
+    @user = User.find(params[:id])
+  end
 
   def user_params
     params.require(:user).permit(:name, :email, :age)
